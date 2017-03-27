@@ -1,10 +1,10 @@
 ﻿var WebSocketServer = require('ws').Server, 
 	port = process.env.PORT || 8081,
 	wss = new WebSocketServer({port: port}),
-    ws_client_jabber = require('ws'),
+    	ws_client_jabber = require('ws'),
 	wss_host = ''; //insert your host
 var Client = require('node-xmpp-client'),
-    ltx = require('node-xmpp-core').ltx;
+    	ltx = require('node-xmpp-core').ltx;
 var client_jabber = new ws_client_jabber(wss_host);
 function sendMessage(msg){
     waitForSocketConnection(client_jabber, function(sock_s){
@@ -21,14 +21,11 @@ function waitForSocketConnection(socket, callback){
                     callback(socket);
                 }
                 return;
-
             } else {
                 console.log("wait for connection...")
                 client_jabber = new ws_client_jabber(wss_host);
-				waitForSocketConnection(client_jabber, callback);
-				
+				waitForSocketConnection(client_jabber, callback);			
             }
-
         }, 50);
 }
 client_jabber.safeSend = function(data) {
