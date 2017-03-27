@@ -1,0 +1,20 @@
+{
+  "name": "ws_jabber",
+  "version": "1.0.0",
+  "engines": {
+    "node": "6.10.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-xmpp-client": "^3.2.0",
+    "ws": "^2.2.2"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

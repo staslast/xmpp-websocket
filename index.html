@@ -1,0 +1,73 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<style>
+			body {
+				width: 20em;
+				margin: 0 auto;
+				}
+			form {
+				margin-top: 2em;
+			}
+			input[type="text"] {
+				width: 70%;
+			}
+			input[type="submit"] {
+				float: right;
+				width: 25%;
+			}	
+			#subscribe span {
+				float: right;
+			}
+		</style>	
+	</head>
+<body>
+<form name="publish">
+  <input type="text" name="message">
+  <input type="submit" value="send">
+</form>
+
+<div id="subscribe"></div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+'use strict';
+	var ws = null;
+	function showMessage(message) {
+		var message_p = document.createElement('p');
+		message_p.innerHTML = (JSON.parse(message).message) + '<span>' + JSON.parse(message).date.replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") + '</span>';
+		document.getElementById('subscribe').appendChild(message_p);
+	};
+	function start(){
+		ws = new WebSocket(''); //insert your ws host
+		ws.onopen = function(){
+			console.log('socked ready, is open');
+			document.forms.publish.onsubmit = function() {
+				var event = {
+					title: 'remont-plit.ru',
+					date: new Date(),
+					message: this.message.value
+				};
+				var str = JSON.stringify(event);
+				ws.send(str);
+				this.reset();
+				return false;
+			};
+		};
+		ws.onmessage = function(event){
+			var incomingMessage = event.data;
+			showMessage(incomingMessage);
+		};
+		ws.onclose = function(){
+			console.log('socked closed!');
+			check();
+		};
+	};
+	function check(){
+		if(!ws || ws.readyState == 3) start();
+	}
+	start();
+	setInterval(check, 5000);
+});	
+</script>
+</body>
+</html>
