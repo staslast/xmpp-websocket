@@ -24,7 +24,7 @@ function waitForSocketConnection(socket, callback){
             } else {
                 console.log("wait for connection...")
                 client_jabber = new ws_client_jabber(wss_host);
-				waitForSocketConnection(client_jabber, callback);			
+		waitForSocketConnection(client_jabber, callback);			
             }
         }, 50);
 }
@@ -52,19 +52,18 @@ wss.on('connection', function(ws) {
 				to: '', // insert your profile xmpp
 				type: 'chat'
 				}).c('body').t(JSON.parse(message).message);
-
-    		if (JSON.parse(message).title == 'jabber') {
-								for (var key in clients) {
-									console.log('key ' + key + 'id' + ws);
-									clients[key].send(message);	
-								};
+    			if (JSON.parse(message).title == 'jabber') {
+				for (var key in clients) {
+					console.log('key ' + key + 'id' + ws);
+					clients[key].send(message);	
+				};
 			} else {
 				client.send(message_incoming_site)
 			};
 			console.log('message ' + message);
 		});
  		ws.on('close', function() {
-    	    console.log('close ws ' + id);
+    	   		console.log('close ws ' + id);
 			delete clients[id];
 			delete id;
   		});
@@ -80,30 +79,30 @@ client.on('stanza', function(stanza) {
   			date: new Date(),
 			message: body.getText()
 		};
-		sendMessage(message);
+	sendMessage(message);
 	};
 });	
 client.on('offline', function () {
-    	console.log('Client is offline');
+	console.log('Client is offline');
 });	
 client.on('online', function() {
-    console.log('Client is online')
-    client.send('<presence/>')
+   	 console.log('Client is online')
+   	 client.send('<presence/>')
 });	
 client.on('connect', function () {
 	console.log('Connect as')
 });
 client.on('reconnect', function () {
-    console.log('Client reconnects …')
+    	console.log('Client reconnects …')
 });
 client.on('disconnect', function (e) {
-    console.log('Client is disconnected', client.connection.reconnect, e)
+   	 console.log('Client is disconnected', client.connection.reconnect, e)
 });
 client.on('error', function(e) {
-    console.error(e);
-    process.exit(1)
+    	 console.error(e);
+   	 process.exit(1)
 });
 process.on('exit', function () {
-    client.end();
-	ws.close();
+   	 client.end();
+	 ws.close();
 });
