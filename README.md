@@ -1,5 +1,6 @@
 # xmpp-websocket
-Sending and receiving XMPP nodejs and browser
+Sending and receiving XMPP nodejs and browser  
+Experiment on **Heroku** server
 ## Installation
 1. **node-xmpp-client**  
 
