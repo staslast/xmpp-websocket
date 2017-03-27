@@ -16,8 +16,19 @@
 				float: right;
 				width: 25%;
 			}	
+			.inner, .inner span {
+				text-align: right;
+			}
+			.outer, .outer span {
+				text-align: left;
+			}
+			#subscribe p {
+				margin: 0.5em 0;
+				word-wrap: break-word;
+			}
 			#subscribe span {
-				float: right;
+				font-size: 50%;
+				display: block;
 			}
 		</style>	
 	</head>
@@ -31,9 +42,15 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 'use strict';
-	var ws = null;
-	function showMessage(message) {
+	var ws = null,
+		incoming = false;
+	function showMessage(message, incoming) {
 		var message_p = document.createElement('p');
+		if (incoming) {
+			message_p.classList.add('outer');
+		} else {
+			message_p.classList.add('inner');
+		};
 		message_p.innerHTML = (JSON.parse(message).message) + '<span>' + JSON.parse(message).date.replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") + '</span>';
 		document.getElementById('subscribe').appendChild(message_p);
 	};
@@ -49,13 +66,14 @@ document.addEventListener("DOMContentLoaded", function() {
 				};
 				var str = JSON.stringify(event);
 				ws.send(str);
+				showMessage(str, false);
 				this.reset();
 				return false;
 			};
 		};
 		ws.onmessage = function(event){
 			var incomingMessage = event.data;
-			showMessage(incomingMessage);
+			showMessage(incomingMessage, true);
 		};
 		ws.onclose = function(){
 			console.log('socked closed!');
